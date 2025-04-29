@@ -103,5 +103,22 @@ To ensure the security and integrity of the Airbnb Clone platform, the following
 - **Building User Trust**: A secure platform fosters trust among users, encouraging them to use the service confidently.
 
 ---
+## CI/CD Pipeline
+
+Continuous Integration and Continuous Deployment (CI/CD) pipelines are automated workflows that streamline the process of building, testing, and deploying code. They ensure that code changes are integrated frequently and deployed efficiently, reducing errors and improving development speed.
+
+### Importance of CI/CD Pipelines
+- **Automation**: Automates repetitive tasks like testing and deployment, saving time and reducing human error.
+- **Consistency**: Ensures that the application behaves the same across different environments (development, staging, production).
+- **Faster Delivery**: Speeds up the release cycle by enabling frequent and reliable deployments.
+- **Improved Collaboration**: Encourages developers to integrate their code changes frequently, reducing integration conflicts.
+
+### Tools for CI/CD
+- **GitHub Actions**: Automates workflows for testing, building, and deploying the application directly from the GitHub repository.
+- **Docker**: Provides containerization to ensure consistent environments across development and production.
+- **Jenkins**: An open-source automation server for building and deploying applications.
+- **CircleCI**: A CI/CD platform that integrates with GitHub for seamless automation.
+
+---
 
 ---
