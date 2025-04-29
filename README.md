@@ -74,5 +74,34 @@ The Airbnb Clone Project is a comprehensive, real-world application designed to 
    Secure payment gateways are integrated to handle transactions for bookings. This feature ensures that payments are processed safely and efficiently, supporting multiple payment methods.
 
 ---
+## API Security
+
+To ensure the security and integrity of the Airbnb Clone platform, the following key security measures will be implemented:
+
+1. **Authentication**  
+   Secure authentication mechanisms, such as token-based authentication (e.g., JWT), will be used to verify the identity of users. This ensures that only authorized users can access the platform.
+
+2. **Authorization**  
+   Role-based access control (RBAC) will be implemented to restrict access to specific resources based on user roles (e.g., guest, host, admin). This prevents unauthorized actions and protects sensitive data.
+
+3. **Rate Limiting**  
+   Rate limiting will be applied to APIs to prevent abuse, such as brute force attacks or excessive requests, ensuring the platform remains stable and responsive.
+
+4. **Data Encryption**  
+   Sensitive data, such as passwords and payment information, will be encrypted both in transit (using HTTPS) and at rest. This protects user data from being intercepted or accessed by unauthorized parties.
+
+5. **Input Validation and Sanitization**  
+   All user inputs will be validated and sanitized to prevent common vulnerabilities like SQL injection and cross-site scripting (XSS). This ensures the integrity of the application.
+
+6. **Secure Payment Processing**  
+   Payment transactions will be handled through trusted third-party payment gateways, ensuring compliance with industry standards like PCI DSS to protect financial data.
+
+### Importance of Security
+- **Protecting User Data**: Ensures that personal and sensitive information remains confidential and secure.
+- **Securing Payments**: Safeguards financial transactions to prevent fraud and unauthorized access.
+- **Maintaining Platform Integrity**: Prevents malicious activities that could disrupt the platform or compromise its functionality.
+- **Building User Trust**: A secure platform fosters trust among users, encouraging them to use the service confidently.
+
+---
 
 ---
