@@ -25,5 +25,36 @@ The Airbnb Clone Project is a comprehensive, real-world application designed to 
 - **Project Manager**: Oversees the project timeline, coordinates between team members, and ensures that the project goals are met on schedule.
 
 ---
+## Database Design
+
+### Key Entities and Fields
+1. **Users**
+   - Fields: `id`, `name`, `email`, `password`, `role`
+   - Description: Represents the users of the platform, including guests and hosts.
+
+2. **Properties**
+   - Fields: `id`, `name`, `location`, `price`, `host_id`
+   - Description: Represents the properties listed by hosts for booking.
+
+3. **Bookings**
+   - Fields: `id`, `user_id`, `property_id`, `start_date`, `end_date`
+   - Description: Represents reservations made by users for specific properties.
+
+4. **Reviews**
+   - Fields: `id`, `user_id`, `property_id`, `rating`, `comment`
+   - Description: Represents feedback provided by users for properties they have booked.
+
+5. **Payments**
+   - Fields: `id`, `booking_id`, `amount`, `payment_date`, `status`
+   - Description: Represents payment transactions for bookings.
+
+### Relationships
+- A **User** can have multiple **Bookings**.
+- A **Property** belongs to a **User** (host).
+- A **Booking** is associated with one **Property** and one **User**.
+- A **Review** is linked to a **User** and a **Property**.
+- A **Payment** is tied to a **Booking**.
+
+---
 
 ---
