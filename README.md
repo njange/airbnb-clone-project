@@ -10,11 +10,17 @@ The Airbnb Clone Project is a comprehensive, real-world application designed to 
 - Integrate modern tools and technologies for CI/CD and deployment.
 
 ## Tech Stack
-- **Django**: A web framework for building RESTful APIs and backend logic, enabling rapid development and clean, pragmatic design.
-- **MySQL**: A relational database for storing and managing application data, ensuring data integrity and efficient querying.
-- **GraphQL**: A query language for APIs that allows clients to request only the data they need, improving performance and flexibility.
-- **Docker**: A tool for containerization, providing consistent development and deployment environments across different systems.
-- **GitHub Actions**: A CI/CD platform for automating testing, building, and deployment processes, ensuring efficient and error-free development workflows.
+
+- **Django**: A high-level Python web framework for building robust and scalable backend systems.
+- **Django REST Framework (DRF)**: A powerful toolkit for building RESTful APIs, enabling seamless communication between the frontend and backend.
+- **PostgreSQL**: A relational database system used for storing and managing structured data efficiently.
+- **Redis**: An in-memory data structure store used for caching and message brokering to improve application performance.
+- **Celery**: A task queue library for handling asynchronous tasks and background jobs, such as sending emails or processing large datasets.
+- **GraphQL**: A query language for APIs that allows clients to request only the data they need, improving flexibility and performance.
+- **Docker**: A containerization platform that ensures consistent development and deployment environments across different systems.
+- **GitHub Actions**: A CI/CD platform for automating workflows, including testing, building, and deploying the application.
+
+---
 
 ## Team Roles
 
@@ -31,29 +37,46 @@ The Airbnb Clone Project is a comprehensive, real-world application designed to 
 1. **Users**
    - Fields: `id`, `name`, `email`, `password`, `role`
    - Description: Represents the users of the platform, including guests and hosts.
+   - Relationships: 
+     - A **User** can have multiple **Bookings** (1-to-many).
+     - A **User** can leave multiple **Reviews** (1-to-many).
+     - A **User** can own multiple **Properties** if they are a host (1-to-many).
 
 2. **Properties**
    - Fields: `id`, `name`, `location`, `price`, `host_id`
    - Description: Represents the properties listed by hosts for booking.
+   - Relationships:
+     - A **Property** belongs to one **User** (host) (many-to-1).
+     - A **Property** can have multiple **Bookings** (1-to-many).
+     - A **Property** can have multiple **Reviews** (1-to-many).
 
 3. **Bookings**
    - Fields: `id`, `user_id`, `property_id`, `start_date`, `end_date`
    - Description: Represents reservations made by users for specific properties.
+   - Relationships:
+     - A **Booking** is associated with one **User** (many-to-1).
+     - A **Booking** is associated with one **Property** (many-to-1).
+     - A **Booking** can have one **Payment** (1-to-1).
 
 4. **Reviews**
    - Fields: `id`, `user_id`, `property_id`, `rating`, `comment`
    - Description: Represents feedback provided by users for properties they have booked.
+   - Relationships:
+     - A **Review** is linked to one **User** (many-to-1).
+     - A **Review** is linked to one **Property** (many-to-1).
 
 5. **Payments**
    - Fields: `id`, `booking_id`, `amount`, `payment_date`, `status`
    - Description: Represents payment transactions for bookings.
+   - Relationships:
+     - A **Payment** is tied to one **Booking** (1-to-1).
 
-### Relationships
-- A **User** can have multiple **Bookings**.
-- A **Property** belongs to a **User** (host).
-- A **Booking** is associated with one **Property** and one **User**.
-- A **Review** is linked to a **User** and a **Property**.
-- A **Payment** is tied to a **Booking**.
+### Relationships Summary
+- A **User** can have multiple **Bookings** and **Reviews**, and can own multiple **Properties** (1-to-many).
+- A **Property** can have multiple **Bookings** and **Reviews**, but belongs to one **User** (host) (1-to-many, many-to-1).
+- A **Booking** is associated with one **User** and one **Property**, and can have one **Payment** (many-to-1, 1-to-1).
+- A **Review** is linked to one **User** and one **Property** (many-to-1).
+- A **Payment** is tied to one **Booking** (1-to-1).
 
 ---
 ## Feature Breakdown
