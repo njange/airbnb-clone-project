@@ -3,6 +3,19 @@
 ## Overview
 The Airbnb Clone Project is a comprehensive, real-world application designed to simulate the development of a robust booking platform like Airbnb. This project focuses on backend systems, database design, API development, and application security, enabling developers to build a scalable and secure web application.
 
+---
+
+## 📋 Table of Contents
+1. [Project Goals](#project-goals)
+2. [Tech Stack](#tech-stack)
+3. [Team Roles](#team-roles)
+4. [Database Design](#database-design)
+5. [Feature Breakdown](#feature-breakdown)
+6. [API Security](#api-security)
+7. [CI/CD Pipeline](#cicd-pipeline)
+
+---
+
 ## Project Goals
 - Develop a scalable backend architecture.
 - Implement secure and efficient APIs.
@@ -33,43 +46,98 @@ The Airbnb Clone Project is a comprehensive, real-world application designed to 
 ---
 ## Database Design
 
-### Key Entities and Fields
-1. **Users**
-   - Fields: `id`, `name`, `email`, `password`, `role`
-   - Description: Represents the users of the platform, including guests and hosts.
-   - Relationships: 
-     - A **User** can have multiple **Bookings** (1-to-many).
-     - A **User** can leave multiple **Reviews** (1-to-many).
-     - A **User** can own multiple **Properties** if they are a host (1-to-many).
+### Database Specification - Airbnb
 
-2. **Properties**
-   - Fields: `id`, `name`, `location`, `price`, `host_id`
-   - Description: Represents the properties listed by hosts for booking.
-   - Relationships:
-     - A **Property** belongs to one **User** (host) (many-to-1).
-     - A **Property** can have multiple **Bookings** (1-to-many).
-     - A **Property** can have multiple **Reviews** (1-to-many).
+#### Entities and Attributes
 
-3. **Bookings**
-   - Fields: `id`, `user_id`, `property_id`, `start_date`, `end_date`
-   - Description: Represents reservations made by users for specific properties.
-   - Relationships:
-     - A **Booking** is associated with one **User** (many-to-1).
-     - A **Booking** is associated with one **Property** (many-to-1).
-     - A **Booking** can have one **Payment** (1-to-1).
+1. **User**
+   - `user_id`: Primary Key, UUID, Indexed
+   - `first_name`: VARCHAR, NOT NULL
+   - `last_name`: VARCHAR, NOT NULL
+   - `email`: VARCHAR, UNIQUE, NOT NULL
+   - `password_hash`: VARCHAR, NOT NULL
+   - `phone_number`: VARCHAR, NULL
+   - `role`: ENUM (guest, host, admin), NOT NULL
+   - `created_at`: TIMESTAMP, DEFAULT CURRENT_TIMESTAMP
 
-4. **Reviews**
-   - Fields: `id`, `user_id`, `property_id`, `rating`, `comment`
-   - Description: Represents feedback provided by users for properties they have booked.
-   - Relationships:
-     - A **Review** is linked to one **User** (many-to-1).
-     - A **Review** is linked to one **Property** (many-to-1).
+2. **Property**
+   - `property_id`: Primary Key, UUID, Indexed
+   - `host_id`: Foreign Key, references `User(user_id)`
+   - `name`: VARCHAR, NOT NULL
+   - `description`: TEXT, NOT NULL
+   - `location`: VARCHAR, NOT NULL
+   - `pricepernight`: DECIMAL, NOT NULL
+   - `created_at`: TIMESTAMP, DEFAULT CURRENT_TIMESTAMP
+   - `updated_at`: TIMESTAMP, ON UPDATE CURRENT_TIMESTAMP
 
-5. **Payments**
-   - Fields: `id`, `booking_id`, `amount`, `payment_date`, `status`
-   - Description: Represents payment transactions for bookings.
-   - Relationships:
-     - A **Payment** is tied to one **Booking** (1-to-1).
+3. **Booking**
+   - `booking_id`: Primary Key, UUID, Indexed
+   - `property_id`: Foreign Key, references `Property(property_id)`
+   - `user_id`: Foreign Key, references `User(user_id)`
+   - `start_date`: DATE, NOT NULL
+   - `end_date`: DATE, NOT NULL
+   - `total_price`: DECIMAL, NOT NULL
+   - `status`: ENUM (pending, confirmed, canceled), NOT NULL
+   - `created_at`: TIMESTAMP, DEFAULT CURRENT_TIMESTAMP
+
+4. **Payment**
+   - `payment_id`: Primary Key, UUID, Indexed
+   - `booking_id`: Foreign Key, references `Booking(booking_id)`
+   - `amount`: DECIMAL, NOT NULL
+   - `payment_date`: TIMESTAMP, DEFAULT CURRENT_TIMESTAMP
+   - `payment_method`: ENUM (credit_card, paypal, stripe), NOT NULL
+
+5. **Review**
+   - `review_id`: Primary Key, UUID, Indexed
+   - `property_id`: Foreign Key, references `Property(property_id)`
+   - `user_id`: Foreign Key, references `User(user_id)`
+   - `rating`: INTEGER, CHECK: `rating >= 1 AND rating <= 5`, NOT NULL
+   - `comment`: TEXT, NOT NULL
+   - `created_at`: TIMESTAMP, DEFAULT CURRENT_TIMESTAMP
+
+6. **Message**
+   - `message_id`: Primary Key, UUID, Indexed
+   - `sender_id`: Foreign Key, references `User(user_id)`
+   - `recipient_id`: Foreign Key, references `User(user_id)`
+   - `message_body`: TEXT, NOT NULL
+   - `sent_at`: TIMESTAMP, DEFAULT CURRENT_TIMESTAMP
+
+---
+
+#### Constraints
+
+1. **User Table**
+   - Unique constraint on `email`.
+   - Non-null constraints on required fields.
+
+2. **Property Table**
+   - Foreign key constraint on `host_id`.
+   - Non-null constraints on essential attributes.
+
+3. **Booking Table**
+   - Foreign key constraints on `property_id` and `user_id`.
+   - `status` must be one of `pending`, `confirmed`, or `canceled`.
+
+4. **Payment Table**
+   - Foreign key constraint on `booking_id`, ensuring payment is linked to valid bookings.
+
+5. **Review Table**
+   - Constraints on `rating` values (1-5).
+   - Foreign key constraints on `property_id` and `user_id`.
+
+6. **Message Table**
+   - Foreign key constraints on `sender_id` and `recipient_id`.
+
+---
+
+#### Indexing
+- **Primary Keys**: Indexed automatically.
+- **Additional Indexes**:
+  - `email` in the **User** table.
+  - `property_id` in the **Property** and **Booking** tables.
+  - `booking_id` in the **Booking** and **Payment** tables.
+
+---
 
 ### Relationships Summary
 - A **User** can have multiple **Bookings** and **Reviews**, and can own multiple **Properties** (1-to-many).
